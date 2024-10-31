@@ -13,7 +13,7 @@ Anleitung:
 7. Öffne unter Windows (Multi-Touch-Table-IAS) die App "PowerShell"
 8. Wechsle zum Ordner auf dem Desktop "cd $HOME\Desktop\tangible-control"
 9. Python-Interpreter starten: "python -m http.server"
-10. Starte Browser und öffne Seite: "localhost:8000/index_241031-2.html"
+10. Starte einen Browser und öffne die Seite: "localhost:8000/index_241031-2.html"
 11. Fertig: Der rote Kreis lässt sich durch das Tangible Nr. 2 ansteuern!
 
 Link zum beispielhaften Figma-Projekt (reduzierte Datei mit einfachem roten Kreis)
