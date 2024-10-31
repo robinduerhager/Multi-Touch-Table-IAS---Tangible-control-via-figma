@@ -4,10 +4,9 @@ Beispielcode, um aus der Figma-Datei mittels des Plugins Anima HTML, CSS und Bil
 
 Anleitung:
 
-1. Figma-Projekt mit dem Anima-Plugin verknüpfen.
-2. Lokale Ordnerstruktur erstellen: Hauptordner „tangible-control“ mit Unterordner „img“.
-3. Figma-Projekt lokal exportieren: HTML und CSS im Hauptordner „tangible-control“ ablegen und PNG-Dateien im Ordner „img“ speichern.
-4. Gegebenenfalls die PNG-Dateien entsprechend der HTML-Verweise umbenennen, damit sie korrekt angesteuert werden.
+1. Figma-Projekt mit dem Plugin für HTML-Export (Figma to Code, Anima, TeleportHQ uvm.) verknüpfen.
+2. Lokale Ordnerstruktur erstellen: Hauptordner „tangible-control“.
+3. Figma-Projekt lokal exportieren: HTML Hauptordner „tangible-control“ ablegen.
 5. Ordner "tuio_client_js" muss komplett lokal exportiert werden und in dem Verzeichnis "tangible-control" liegen
 6. Beispielcode aus „tangible-2.html“ in HTML integrieren: body-Bereich ggf. auch header-Bereich.
 7. Öffne unter Windows (Multi-Touch-Table-IAS) die App "PowerShell"
