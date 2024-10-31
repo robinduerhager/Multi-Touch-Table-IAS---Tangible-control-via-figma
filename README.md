@@ -1,19 +1,19 @@
 Multi-Touch-Table-IAS---Tangible-control-via-figma
 
-Beispielcode, um aus der Figma-Datei mittels des Plugins Anima HTML, CSS und Bilder zu exportieren und Tangible 2 (ID 2) anzusteuern. Bitte öffne die Datei „tangible-2.html“ und kopiere den Code vonm body-Bereich in deine Datei.
+Beispielcode, um aus der Figma-Datei mittels des Plugins HTML zu exportieren und Tangible 2 (ID 2) anzusteuern. Bitte öffne die Datei „tangible-2.html“ und kopiere den Code aus dem Body-Bereich in deine Datei.
 
-Anleitung:
+Schritte:
 
-1. Figma-Projekt mit dem Plugin für HTML-Export (Figma to Code, Anima, TeleportHQ uvm.) verknüpfen.
-2. Lokale Ordnerstruktur erstellen: Hauptordner „tangible-control“.
-3. Figma-Projekt lokal exportieren: HTML Hauptordner „tangible-control“ ablegen.
-5. Ordner "tuio_client_js" muss komplett lokal exportiert werden und in dem Verzeichnis "tangible-control" liegen
-6. Beispielcode aus „tangible-2.html“ in HTML integrieren: body-Bereich ggf. auch header-Bereich.
-7. Öffne unter Windows (Multi-Touch-Table-IAS) die App "PowerShell"
-8. Wechsle zum Ordner auf dem Desktop "cd $HOME\Desktop\tangible-control"
-9. Python-Interpreter starten: "python -m http.server"
-10. Starte einen Browser und öffne die Seite: "localhost:8000/index_241031-2.html"
-11. Fertig: Der rote Kreis lässt sich durch das Tangible Nr. 2 ansteuern!
+1. Verknüpfe das Figma-Projekt mit einem HTML-Export-Plugin (z. B. Figma to Code, Anima, TeleportHQ).
+2. Erstelle eine lokale Ordnerstruktur mit dem Hauptordner „tangible-control“.
+3. Exportiere das Figma-Projekt lokal und lege die HTML-Dateien im Hauptordner „tangible-control“ ab.
+4. Exportiere den Ordner "tuio_client_js" vollständig lokal und lege ihn im Verzeichnis „tangible-control“ ab.
+5. Integriere den Beispielcode aus „tangible-2.html“ in die HTML-Datei: kopiere den Body-Bereich (ggf. auch den Header-Bereich).
+6. Öffne unter Windows (Multi-Touch-Table-IAS) die App „PowerShell“.
+7. Wechsle im Terminal zum Ordner auf dem Desktop mit dem Befehl: cd $HOME\Desktop\tangible-control
+8. Starte den Python-Interpreter mit dem Befehl: python -m http.server
+9. Öffne einen Browser und rufe die Seite auf: localhost:8000/index_241031-2.html
+10. Fertig! Der rote Kreis lässt sich nun über Tangible Nr. 2 auf dem Multi-Touch-Table-IAS ansteuern.
 
 Link zum beispielhaften Figma-Projekt (reduzierte Datei mit einfachem roten Kreis)
 https://www.figma.com/design/aTJSpxjPOCAhIuuUm7nCv2/Experiment?node-id=0-1&node-type=canvas&t=oFzzWlQFfWQX9R6R-0
