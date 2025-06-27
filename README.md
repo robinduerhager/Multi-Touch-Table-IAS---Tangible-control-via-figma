@@ -10,7 +10,7 @@ Damit der [TUIO-Simulator](https://github.com/InteractiveScapeGmbH/tuio-simulato
 - **TUIO-Version:** Tuio2  
 - **Kommunikationsprotokoll:** WebSocket  
 - **Port:** 3343  
-- **Servername/Quellname:** frei wählbar (hat keine erkennbare Auswirkung)  
+- **Servername/Quellname:** Frei wählbar (hat keine erkennbare Auswirkung)  
 - **Token-ID:** 2  
 
 Weitere Informationen zur programmatischen Ansteuerung der Tokens findest du in den JavaScript-Dateien im Ordner:  
