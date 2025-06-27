@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive Scape - Tangible Steuerung</title>
+    <title>Interactive Scape - Tangible Controls</title>
     <style>
-      /* Hintergrund und Kreis definieren */
+      /* Background */
       body {
         margin: 0;
         padding: 0;
@@ -16,7 +16,7 @@
         height: 100vh;
       }
 
-      /* Der rote Kreis */
+      /* The red circle */
       #redCircle {
         width: 100px;
         height: 100px;
@@ -27,77 +27,76 @@
     </style>
   </head>
   <body>
-    <!-- Ein roter Kreis, der durch Tangible gesteuert wird -->
+    <!-- A red circle that gets moved by tangibles of the TUIO System -->
     <div id="redCircle"></div>
 
     <script src="./tuio_client_js/src/libs/osc-browser.js"></script>
     <script type="module">
       import { WebsocketTuioReceiver } from './tuio_client_js/src/common/WebsocketTuioReceiver.js';
       import { Tuio20Client } from './tuio_client_js/src/tuio20/Tuio20Client.js';
+      import { Tuio20Listener } from './tuio_client_js/src/tuio20/Tuio20Listener.js';
 
-      const TUIO_HOST = 'localhost'; // for table probably: 10.0.0.20
-      const TUIO_PORT = 3343; // for table probably: 3343
-
-      let DemoImplementation = function () {
-        this.tuioReceiver = new WebsocketTuioReceiver(`ws://${TUIO_HOST}:${TUIO_PORT}/`); // !!! Stelle sicher, dass der WebSocket-Server richtig läuft !!!
-        this.tuio20Client = new Tuio20Client(this.tuioReceiver);
-        this.tuio20Client.addTuioListener(this);
-
-        // Funktion für das Hinzufügen eines TUIO-Objekts
-        this.tuioAdd = function (tuioObject) {
-          //if (!tuioObject.token) return;
-
-          console.log(tuioObject);
-          if (tuioObject.token.cId === 2) {
-            // Wenn das Tangible mit der ID 2 erkannt wird
-            console.log('Tangible 2 hinzugefügt:', tuioObject);
-            moveCircle(
-              tuioObject.x * window.innerWidth,
-              tuioObject.y * window.innerHeight
-            ); // Tangible bewegt den Kreis
-          }
-        };
-
-        // Funktion zum Aktualisieren der Position des TUIO-Objekts
-        this.tuioUpdate = function (tuioObject) {
-          if (!tuioObject.token) return;
-
-          if (tuioObject.token.cId === 2) {
-            //console.log("Tangible 2 aktualisiert:", tuioObject);
-
-            // Move Circle scaled by window size and corrected by 1/2 circle width and height since origin point is on the top left, not in the middle.
-            moveCircle(
-              tuioObject.token.xPos * window.innerWidth - 50,
-              tuioObject.token.yPos * window.innerHeight - 50
-            );
-          }
-        };
-
-        // Funktion zum Entfernen des TUIO-Objekts
-        this.tuioRemove = function (tuioObject) {
-          if (!tuioObject.token) return;
-
-          if (tuioObject.token.cId === 2) {
-            console.log('Tangible 2 entfernt:', tuioObject);
-          }
-        };
-
-        // Funktion zur Verarbeitung der TUIO-Aktualisierung
-        this.tuioRefresh = function (tuioTime) {
-          //console.log("TUIO-Daten aktualisiert zur Zeit:", tuioTime);
-        };
-
-        this.tuio20Client.connect();
-      };
-
-      var dI = new DemoImplementation();
-
-      // Funktion, um den roten Kreis zu bewegen
+      // Function for moving a circle based on incoming x and y coords.
       function moveCircle(x, y) {
         const circle = document.getElementById('redCircle');
         circle.style.left = x + 'px';
         circle.style.top = y + 'px';
       }
+
+      // Example implementation of the Tuio20Listener
+      // The methods will be called by the TUIO system based on events that happen inside of the TUIO System (e.g. the tuio table or the tuio simulation)
+      // By overwriting these methods you can define the behaviour and the connection of your system with the TUIO system
+      class ExampleTuio20Listener extends Tuio20Listener {
+
+        // Function for adding a tangible to the TUIO System
+        tuioAdd(tuioObject) {
+          console.log(tuioObject)
+          if (tuioObject.token.cId === 0) {
+            // If the tangible has the ID of 0
+            console.log('Tangible 2 hinzugefügt:', tuioObject);
+
+            // Place the red circle on the same coordinate as the tangible
+            // - 50 in x and y corrects the visual placement of the red circle since the origin of it is in the upper left corner and the circle has dimensions of 100*100 px
+            moveCircle(
+              tuioObject.x * window.innerWidth - 50,
+              tuioObject.y * window.innerHeight - 50
+            );
+          }
+        }
+
+        // Function for updating the position of the red circle based on updated values of the tangible in the TUIO System
+        tuioUpdate(tuioObject) {
+          if (!tuioObject.token) return;
+
+          if (tuioObject.token.cId === 0) {
+
+            moveCircle(
+              tuioObject.token.xPos * window.innerWidth - 50,
+              tuioObject.token.yPos * window.innerHeight - 50
+            );
+          }
+        }
+
+        // Function for removing TUIO-Objects
+        tuioRemove(tuioObject) {
+          if (!tuioObject.token) return;
+
+          if (tuioObject.token.cId === 0) {
+            console.log('Tangible 2 entfernt:', tuioObject);
+          }
+        }
+
+        // Function for running effects on TUIO-Refresh
+        tuioRefresh(time) {}
+      }
+
+      const TUIO_HOST = 'localhost'; // for table probably: 10.0.0.20
+      const TUIO_PORT = 3343; // for table probably: 3343
+
+      // Setup TUIO Client and add the custom implementation for the Listener Methods
+      const tuioClient = new Tuio20Client(new WebsocketTuioReceiver(`ws://${TUIO_HOST}:${TUIO_PORT}`));
+      tuioClient.addTuioListener(new ExampleTuio20Listener());
+      tuioClient.connect();
 
       // Debug-Log für WebSocket-Verbindung
       /*
