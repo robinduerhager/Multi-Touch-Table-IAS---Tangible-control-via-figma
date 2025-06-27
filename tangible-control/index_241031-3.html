@@ -51,9 +51,9 @@
         // Function for adding a tangible to the TUIO System
         tuioAdd(tuioObject) {
           console.log(tuioObject)
-          if (tuioObject.token.cId === 0) {
+          if (tuioObject.token.cId === 2) {
             // If the tangible has the ID of 0
-            console.log('Tangible 2 hinzugefügt:', tuioObject);
+            console.log('Added Tangible 2:', tuioObject);
 
             // Place the red circle on the same coordinate as the tangible
             // - 50 in x and y corrects the visual placement of the red circle since the origin of it is in the upper left corner and the circle has dimensions of 100*100 px
@@ -68,7 +68,8 @@
         tuioUpdate(tuioObject) {
           if (!tuioObject.token) return;
 
-          if (tuioObject.token.cId === 0) {
+          if (tuioObject.token.cId === 2) {
+            console.log('Moved Tangible 2:', tuioObject);
 
             moveCircle(
               tuioObject.token.xPos * window.innerWidth - 50,
@@ -81,8 +82,8 @@
         tuioRemove(tuioObject) {
           if (!tuioObject.token) return;
 
-          if (tuioObject.token.cId === 0) {
-            console.log('Tangible 2 entfernt:', tuioObject);
+          if (tuioObject.token.cId === 2) {
+            console.log('Removed Tangible 2:', tuioObject);
           }
         }
 
