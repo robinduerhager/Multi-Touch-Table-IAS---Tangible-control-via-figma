@@ -30,15 +30,16 @@
     <!-- Ein roter Kreis, der durch Tangible gesteuert wird -->
     <div id="redCircle"></div>
 
-    <script src="http://10.0.0.20/js/tuio_client_js/src/libs/osc-browser.js"></script>
-    <!--<script type="module" src="tuio_client_js/src/common/WebsocketTuioReceiver.js"</script>
-    <script type="module" src="tuio_client_js/src/tuio20/Tuio20Client.js"></script>	-->
+    <script src="./tuio_client_js/src/libs/osc-browser.js"></script>
     <script type="module">
       import { WebsocketTuioReceiver } from './tuio_client_js/src/common/WebsocketTuioReceiver.js';
       import { Tuio20Client } from './tuio_client_js/src/tuio20/Tuio20Client.js';
 
+      const TUIO_HOST = 'localhost'; // for table probably: 10.0.0.20
+      const TUIO_PORT = 3343; // for table probably: 3343
+
       let DemoImplementation = function () {
-        this.tuioReceiver = new WebsocketTuioReceiver('ws://10.0.0.20:3343/'); // Stelle sicher, dass der WebSocket-Server richtig läuft
+        this.tuioReceiver = new WebsocketTuioReceiver(`ws://${TUIO_HOST}:${TUIO_PORT}/`); // !!! Stelle sicher, dass der WebSocket-Server richtig läuft !!!
         this.tuio20Client = new Tuio20Client(this.tuioReceiver);
         this.tuio20Client.addTuioListener(this);
 
@@ -99,7 +100,10 @@
       }
 
       // Debug-Log für WebSocket-Verbindung
-      const ws = new WebSocket('ws://10.0.0.20:3333/');
+      const WS_HOST = 'localhost'; // for table probably 10.0.0.20
+      const WS_PORT = 3333; // for table probably 3333
+
+      const ws = new WebSocket(`ws://${WS_HOST}:${WS_PORT}/`);
       ws.onopen = function () {
         console.log('WebSocket-Verbindung zum TUIO-Server hergestellt');
       };
