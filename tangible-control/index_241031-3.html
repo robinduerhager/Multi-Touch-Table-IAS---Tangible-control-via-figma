@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Scape - Tangible Steuerung</title>
+    <style>
+      /* Hintergrund und Kreis definieren */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      /* Der rote Kreis */
+      #redCircle {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ein roter Kreis, der durch Tangible gesteuert wird -->
+    <div id="redCircle"></div>
+
+    <script src="http://10.0.0.20/js/tuio_client_js/src/libs/osc-browser.js"></script>
+    <!--<script type="module" src="tuio_client_js/src/common/WebsocketTuioReceiver.js"</script>
+    <script type="module" src="tuio_client_js/src/tuio20/Tuio20Client.js"></script>	-->
+    <script type="module">
+      import { WebsocketTuioReceiver } from './tuio_client_js/src/common/WebsocketTuioReceiver.js';
+      import { Tuio20Client } from './tuio_client_js/src/tuio20/Tuio20Client.js';
+
+      let DemoImplementation = function () {
+        this.tuioReceiver = new WebsocketTuioReceiver('ws://10.0.0.20:3343/'); // Stelle sicher, dass der WebSocket-Server richtig läuft
+        this.tuio20Client = new Tuio20Client(this.tuioReceiver);
+        this.tuio20Client.addTuioListener(this);
+
+        // Funktion für das Hinzufügen eines TUIO-Objekts
+        this.tuioAdd = function (tuioObject) {
+          //if (!tuioObject.token) return;
+
+          console.log(tuioObject);
+          if (tuioObject.token.cId === 2) {
+            // Wenn das Tangible mit der ID 2 erkannt wird
+            console.log('Tangible 2 hinzugefügt:', tuioObject);
+            moveCircle(
+              tuioObject.x * window.innerWidth,
+              tuioObject.y * window.innerHeight
+            ); // Tangible bewegt den Kreis
+          }
+        };
+
+        // Funktion zum Aktualisieren der Position des TUIO-Objekts
+        this.tuioUpdate = function (tuioObject) {
+          if (!tuioObject.token) return;
+
+          if (tuioObject.token.cId === 2) {
+            //console.log("Tangible 2 aktualisiert:", tuioObject);
+
+            // Move Circle scaled by window size and corrected by 1/2 circle width and height since origin point is on the top left, not in the middle.
+            moveCircle(
+              tuioObject.token.xPos * window.innerWidth - 50,
+              tuioObject.token.yPos * window.innerHeight - 50
+            );
+          }
+        };
+
+        // Funktion zum Entfernen des TUIO-Objekts
+        this.tuioRemove = function (tuioObject) {
+          if (!tuioObject.token) return;
+
+          if (tuioObject.token.cId === 2) {
+            console.log('Tangible 2 entfernt:', tuioObject);
+          }
+        };
+
+        // Funktion zur Verarbeitung der TUIO-Aktualisierung
+        this.tuioRefresh = function (tuioTime) {
+          //console.log("TUIO-Daten aktualisiert zur Zeit:", tuioTime);
+        };
+
+        this.tuio20Client.connect();
+      };
+
+      var dI = new DemoImplementation();
+
+      // Funktion, um den roten Kreis zu bewegen
+      function moveCircle(x, y) {
+        const circle = document.getElementById('redCircle');
+        circle.style.left = x + 'px';
+        circle.style.top = y + 'px';
+      }
+
+      // Debug-Log für WebSocket-Verbindung
+      const ws = new WebSocket('ws://10.0.0.20:3333/');
+      ws.onopen = function () {
+        console.log('WebSocket-Verbindung zum TUIO-Server hergestellt');
+      };
+
+      ws.onmessage = function (event) {
+        //console.log("TUIO-Nachricht empfangen", event.data);
+      };
+
+      ws.onerror = function (error) {
+        console.log('WebSocket-Fehler:', error);
+      };
+    </script>
+  </body>
+</html>
